@@ -24,8 +24,8 @@
       [links]="graphData.links"
       [nodes]="graphData.nodes"
       [autoCenter]="true"
-      [enableZoom]="false"
-      layout="d3ForceDirected">
+      [autoZoom]="true"
+      [enableZoom]="true">
 
       <ng-template #nodeTemplate let-node>
         <svg:g class="node">
