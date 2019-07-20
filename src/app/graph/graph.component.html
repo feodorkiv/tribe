@@ -1,0 +1,46 @@
+
+  <div class="graph-controls">
+    <form [formGroup]="nodeForm" (submit)="addNode()" class="form-inline">
+      <label> Персона: </label>
+        <input type="text" formControlName="nodeLabel">
+
+      <ng-container *ngIf="(graphData$ | async) as graphData">
+        <label>
+          Связана с: </label>
+          <select formControlName="nodeParent">
+            <option *ngFor="let opt of graphData.nodes" [ngValue]="opt">{{opt.label}}</option>
+          </select>
+      </ng-container>
+
+      <button type="submit" class="sbm" [disabled]="nodeForm.invalid">Добавить</button>
+      <button type="button" (click)="clearGraph()" class="clear">Очистить граф</button>
+
+    </form>
+  </div>
+
+  <div class="graph" *ngIf="(graphData$ | async) as graphData">
+    <ngx-graph
+      class="chart-container"
+      [links]="graphData.links"
+      [nodes]="graphData.nodes"
+      [autoCenter]="true"
+      layout="d3ForceDirected">
+
+      <ng-template #nodeTemplate let-node>
+        <svg:g class="node">
+          <svg:rect
+            [attr.width]="node.dimension.width"
+            [attr.height]="node.dimension.height"
+            [attr.fill]="node.data.color"
+            fill-opacity="0.9"
+          />
+          <svg:text alignment-baseline="central" [attr.x]="10" [attr.y]="node.dimension.height / 2">
+            {{node.label}}
+          </svg:text>
+        </svg:g>
+      </ng-template>
+
+
+
+    </ngx-graph>
+  </div>
